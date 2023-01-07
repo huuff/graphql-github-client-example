@@ -1,7 +1,7 @@
-import { CodegenConfig } from '@graphql-codegen/cli';
-
+import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
+  overwrite: true,
   schema: [
     {
       'https://api.github.com/graphql': {
@@ -11,18 +11,19 @@ const config: CodegenConfig = {
       }
     }
   ],
-  documents: ['src/**/*.tsx'],
+  documents: [
+    "src/**/*.tsx",
+    "pages/**/*.tsx",
+  ],
   generates: {
-    './src/__generated__/': {
-      preset: 'client',
+    "./src/__generated__/": {
+      preset: "client",
       plugins: [],
       presetConfig: {
-        gqlTagName: 'gql',
+        gqlTagName: "gql",
       }
-    }
-  },
-  ignoreNoDocuments: true,
+    },
+  }
 };
-
 
 export default config;
