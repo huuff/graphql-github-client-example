@@ -2,8 +2,9 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from "@apollo/client/link/context";
-import NavBar from '../src/components/Navbar';
+import Navbar from '../src/components/Navbar';
 import ClientSideOnly from '../src/components/util/ClientSideOnly';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const httpLink = createHttpLink({
   uri: "https://api.github.com/graphql"
@@ -32,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <> 
       <ApolloProvider client={apolloClient}>
         <ClientSideOnly>
-          <NavBar />
+          <Navbar />
         </ClientSideOnly>
         <Component {...pageProps} />
       </ApolloProvider>

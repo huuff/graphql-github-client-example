@@ -1,6 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import { FC, FormEventHandler, useEffect } from "react"
+import { FC, FormEventHandler } from "react"
 import { useLocalStorage } from "usehooks-ts";
+import BootstrapNavbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { Container } from "react-bootstrap";
 
 const GET_VIEWER_DATA = gql(`
   query GetViewerData {
@@ -11,7 +14,7 @@ const GET_VIEWER_DATA = gql(`
 `);
 
 // TODO: The response from useQuery is not typed!
-const NavBar: FC = () => {
+const Navbar: FC = () => {
     const [apiToken, setApiToken] = useLocalStorage<string | undefined>("gh-token", undefined);
     const { data, loading } = useQuery(GET_VIEWER_DATA);
 
@@ -26,17 +29,26 @@ const NavBar: FC = () => {
     }
 
     return (
-        <nav>
-            {
-                (apiToken && data)
-                    ? data.viewer.login 
-                    : <form onSubmit={handleSubmit}>
-                        <input name="token" />
-                        <button>Log in</button>
-                    </form>
-            }
-        </nav>
+        <BootstrapNavbar bg="light" expand="lg">
+            <Container>
+                <BootstrapNavbar.Collapse className="justify-content-end">
+                    {
+                        (apiToken && data)
+                            ? (
+                                <BootstrapNavbar.Text>
+                                    Signed in as: <a href="#login">{data.viewer.login}</a>
+                                </BootstrapNavbar.Text>
+                            )
+                            : <form onSubmit={handleSubmit}>
+                                <input name="token" />
+                                <button>Log in</button>
+                            </form>
+                    }
+                </BootstrapNavbar.Collapse>
+
+            </Container>
+        </BootstrapNavbar >
     );
 }
 
-export default NavBar;
+export default Navbar;
