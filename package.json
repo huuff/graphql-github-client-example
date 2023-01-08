@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "compile": "DOTENV_CONFIG_PATH=.env.local graphql-codegen --require dotenv/config --config ./codegen.ts",
     "codegen": "DOTENV_CONFIG_PATH=.env.local graphql-codegen --require dotenv/config --config codegen.ts"
   },
   "dependencies": {

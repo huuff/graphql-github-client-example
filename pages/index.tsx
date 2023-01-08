@@ -2,13 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { FC } from 'react';
 import { gql } from "../src/__generated__/gql";
-import { useQuery } from "@apollo/client";
-
-type HomeProps = {
-  readonly apiToken: string;
-};
-
-const Home: FC<HomeProps> = ({ apiToken }) => {
+const Home: FC = () => {
   return (
     <>
       <Head>

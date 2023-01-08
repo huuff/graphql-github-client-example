@@ -2,13 +2,13 @@ import { gql, useQuery } from "@apollo/client";
 import { FC, FormEventHandler } from "react"
 import { useLocalStorage } from "usehooks-ts";
 import BootstrapNavbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import { Container } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 
 const GET_VIEWER_DATA = gql(`
   query GetViewerData {
     viewer {
       login
+      avatarUrl
     }
   }
 `);
@@ -23,7 +23,6 @@ const Navbar: FC = () => {
         const target = e.target as typeof e.target & {
             token: { value: string };
         };
-        console.log(`Token: ${target.token.value}`)
 
         setApiToken(target.token.value)
     }
