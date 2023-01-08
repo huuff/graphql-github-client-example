@@ -1,10 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { FC, FormEventHandler } from "react"
 import { useLocalStorage } from "usehooks-ts";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import { gql } from "../__generated__/gql";
 
-const GET_VIEWER_DATA = gql(`
+export const GET_VIEWER_DATA = gql(`
   query GetViewerData {
     viewer {
       login
@@ -13,7 +14,6 @@ const GET_VIEWER_DATA = gql(`
   }
 `);
 
-// TODO: The response from useQuery is not typed!
 const Navbar: FC = () => {
     const [apiToken, setApiToken] = useLocalStorage<string | undefined>("gh-token", undefined);
     const { data, loading } = useQuery(GET_VIEWER_DATA);

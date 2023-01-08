@@ -13,7 +13,7 @@ const config: CodegenConfig = {
   ],
   documents: [
     "src/**/*.tsx",
-    "pages/**/*.tsx",
+    //"pages/**/*.tsx",
   ],
   generates: {
     "./src/__generated__/": {
@@ -23,7 +23,8 @@ const config: CodegenConfig = {
         gqlTagName: "gql",
       }
     },
-  }
+  },
+  ignoreNoDocuments: true
 };
 
 export default config;
