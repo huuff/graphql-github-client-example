@@ -4,6 +4,7 @@ import { useLocalStorage } from "usehooks-ts";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { gql } from "../__generated__/gql";
+import Image from "react-bootstrap/Image";
 
 export const GET_VIEWER_DATA = gql(`
   query GetViewerData {
@@ -29,14 +30,25 @@ const Navbar: FC = () => {
 
     return (
         <BootstrapNavbar bg="light" expand="lg">
-            <Container>
+            <Container fluid>
                 <BootstrapNavbar.Collapse className="justify-content-end">
                     {
                         (apiToken && data)
                             ? (
-                                <BootstrapNavbar.Text>
-                                    Signed in as: <a href="#login">{data.viewer.login}</a>
-                                </BootstrapNavbar.Text>
+                                <>
+                                    <Image  
+                                        src={data.viewer.avatarUrl}
+                                        alt="avatar"
+                                        roundedCircle 
+                                        className="me-3"
+                                        style={{maxWidth: "30px"}}
+                                     />
+                                     {/*
+                                    <BootstrapNavbar.Text>
+                                        <a href="#login">{data.viewer.login}</a>
+                                    </BootstrapNavbar.Text>
+                                    */}
+                                </>
                             )
                             : <form onSubmit={handleSubmit}>
                                 <input name="token" />
