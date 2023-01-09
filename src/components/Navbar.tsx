@@ -5,6 +5,7 @@ import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { gql } from "../__generated__/gql";
 import Image from "react-bootstrap/Image";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 export const GET_VIEWER_DATA = gql(`
   query GetViewerData {
@@ -36,14 +37,24 @@ const Navbar: FC = () => {
                         (apiToken && data)
                             ? (
                                 <>
-                                    <Image  
-                                        src={data.viewer.avatarUrl}
-                                        alt="avatar"
-                                        roundedCircle 
-                                        className="me-3"
-                                        style={{maxWidth: "30px"}}
-                                     />
-                                     {/*
+                                    <NavDropdown title={
+                                        // TODO: Use width and height instead of inline style
+                                            <Image
+                                            src={data.viewer.avatarUrl}
+                                            alt="avatar"
+                                            roundedCircle
+                                            style={{ maxWidth: "30px" }}
+                                        />
+                                    }
+                                        align="end"
+                                    >
+
+                                            <NavDropdown.Item>
+                                                Log out
+                                            </NavDropdown.Item>
+                                    </NavDropdown>
+
+                                    {/*
                                     <BootstrapNavbar.Text>
                                         <a href="#login">{data.viewer.login}</a>
                                     </BootstrapNavbar.Text>
