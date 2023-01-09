@@ -48,17 +48,16 @@ const Navbar: FC = () => {
                                     }
                                         align="end"
                                     >
+                                            <p className="px-1">
+                                                Signed in as <a href="#" className="fw-bolder text-secondary">{data.viewer.login}</a>
+                                            </p>
+                                            <NavDropdown.Divider />
 
                                             <NavDropdown.Item onClick={() => setApiToken(undefined)}>
                                                 Log out
                                             </NavDropdown.Item>
                                     </NavDropdown>
 
-                                    {/*
-                                    <BootstrapNavbar.Text>
-                                        <a href="#login">{data.viewer.login}</a>
-                                    </BootstrapNavbar.Text>
-                                    */}
                                 </>
                             )
                             : <form onSubmit={handleSubmit}>
