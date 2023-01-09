@@ -49,7 +49,7 @@ const Navbar: FC = () => {
                                         align="end"
                                     >
 
-                                            <NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => setApiToken(undefined)}>
                                                 Log out
                                             </NavDropdown.Item>
                                     </NavDropdown>
