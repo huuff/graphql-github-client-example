@@ -13,7 +13,7 @@ const config: CodegenConfig = {
   ],
   documents: [
     "src/**/*.tsx",
-    //"pages/**/*.tsx",
+    "pages/**/*.tsx",
   ],
   generates: {
     "./src/__generated__/": {
