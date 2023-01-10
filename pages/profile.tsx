@@ -1,11 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { Container } from "react-bootstrap";
 import { gql } from "../src/__generated__";
 
 export const USER_QUERY = gql(`
-    query GetUserData($user: String!) {
-        user(login: $user) {
+    query GetUserData($login: String!) {
+        user(login: $login) {
             bio
+            name
         }
     }
 `);
@@ -16,13 +18,14 @@ const Profile = () => {
 
 
     const { data, loading } = useQuery(USER_QUERY, {
-        variables: { user: login as string }
+        variables: { login: login as string }
     });
 
     return (
-        <div>
-            <p>{ data?.user?.bio }</p>
-        </div>
+        <Container>
+            <h1 className="display-1">{ data?.user?.name }</h1>
+            <p>{data?.user?.bio}</p>
+        </Container>
     );
 };
 
