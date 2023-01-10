@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client";
-import { FC, FormEventHandler } from "react"
+import { FC, FormEventHandler, useContext } from "react"
 import { useLocalStorage } from "usehooks-ts";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { gql } from "../__generated__/gql";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { AuthContext } from "../auth-context";
 
 export const GET_VIEWER_DATA = gql(`
   query GetViewerData {
@@ -17,7 +18,7 @@ export const GET_VIEWER_DATA = gql(`
 `);
 
 const Navbar: FC = () => {
-    const [apiToken, setApiToken] = useLocalStorage<string | undefined>("gh-token", undefined);
+    const { isLoggedIn, logIn, logOut } = useContext(AuthContext);
     const { data, loading } = useQuery(GET_VIEWER_DATA);
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -26,7 +27,7 @@ const Navbar: FC = () => {
             token: { value: string };
         };
 
-        setApiToken(target.token.value)
+        logIn(target.token.value)
     }
 
     return (
@@ -34,7 +35,7 @@ const Navbar: FC = () => {
             <Container fluid>
                 <BootstrapNavbar.Collapse className="justify-content-end">
                     {
-                        (apiToken && data)
+                        (isLoggedIn && data)
                             ? (
                                 <>
                                     <NavDropdown title={
@@ -53,7 +54,7 @@ const Navbar: FC = () => {
                                             </p>
                                             <NavDropdown.Divider />
 
-                                            <NavDropdown.Item onClick={() => setApiToken(undefined)}>
+                                            <NavDropdown.Item onClick={logOut}>
                                                 Log out
                                             </NavDropdown.Item>
                                     </NavDropdown>

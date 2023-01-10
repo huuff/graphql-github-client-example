@@ -5,38 +5,41 @@ import { setContext } from "@apollo/client/link/context";
 import Navbar from '../src/components/Navbar';
 import ClientSideOnly from '../src/components/util/ClientSideOnly';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-const httpLink = createHttpLink({
-  uri: "https://api.github.com/graphql"
-});
-
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('gh-token')?.replaceAll(/"/g, "");
-  // return the headers to the context so httpLink can read them
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  };
-});
-
-const apolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
-});
+import { AuthContext, useAuth } from '../src/auth-context';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const auth = useAuth();
+
+
+  const httpLink = createHttpLink({
+    uri: "https://api.github.com/graphql"
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: auth.apiToken ? `Bearer ${auth.apiToken}` : "",
+      }
+    };
+  });
+
+  const apolloClient = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: authLink.concat(httpLink),
+  });
+
+
   return (
-    <> 
-      <ApolloProvider client={apolloClient}>
-        <ClientSideOnly>
-          <Navbar />
-        </ClientSideOnly>
-        <Component {...pageProps} />
-      </ApolloProvider>
+    <>
+      <AuthContext.Provider value={auth}>
+        <ApolloProvider client={apolloClient}>
+          <ClientSideOnly>
+            <Navbar />
+          </ClientSideOnly>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </AuthContext.Provider>
     </>
   )
 }

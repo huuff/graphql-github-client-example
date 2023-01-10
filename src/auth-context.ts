@@ -3,16 +3,18 @@ import { useLocalStorage } from "usehooks-ts";
 
 export type AuthState = {
     apiToken?: string;
+    isLoggedIn: boolean;
     logIn: (token: string) => void;
     logOut: () => void;
 }
 
-// TODO: Finish this
-export function useAuth(localStorageKey: string): AuthState {
-    const [ tokenInLocalStorage, setTokenInLocalStorage ] = useLocalStorage<string | undefined>(localStorageKey, undefined);
+const LOCAL_STORAGE_KEY = "gh-api-token";
+export function useAuth(): AuthState {
+    const [ tokenInLocalStorage, setTokenInLocalStorage ] = useLocalStorage<string | undefined>(LOCAL_STORAGE_KEY, undefined);
 
     return {
         apiToken: tokenInLocalStorage,
+        isLoggedIn: !!tokenInLocalStorage,
         logIn: (token) => setTokenInLocalStorage(token),
         logOut: () => setTokenInLocalStorage(undefined),
     }
@@ -20,5 +22,6 @@ export function useAuth(localStorageKey: string): AuthState {
 
 export const AuthContext = createContext<AuthState>({
     logIn: (token) => {},
-    logOut: ()
+    logOut: () => {},
+    isLoggedIn: false,
 });
