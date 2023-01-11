@@ -2,12 +2,12 @@ import { FC } from "react";
 import Card from "react-bootstrap/Card";
 import { gql } from "../__generated__";
 
-export const REPOSITORY_CARD_FRAGMENT = gql`
+export const REPOSITORY_CARD_FRAGMENT = gql(`
     fragment RepositoryCard on Repository {
         resourcePath
         description
     }
-`; 
+`); 
 
 type RepositoryCardProps = {
     readonly resourcePath: string;
