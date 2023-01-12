@@ -41,9 +41,9 @@ const Profile = () => {
             {
                 data?.user?.repositories?.edges?.map((repository) => (
                     <RepositoryCard 
-                        key={repository?.node}
-                        resourcePath={repository.resourcePath} 
-                        description={repository.description}
+                        key={repository?.node?.resourcePath}
+                        resourcePath={repository?.node?.resourcePath ?? ""} 
+                        description={repository?.node?.description ?? ""}
                     />
                 ))
             }
