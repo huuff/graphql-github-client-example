@@ -12,11 +12,12 @@ export const REPOSITORY_CARD_FRAGMENT = gql(`
 type RepositoryCardProps = {
     readonly resourcePath: string;
     readonly description: string;
+    readonly className?: string;
 };
 
-const RepositoryCard: FC<RepositoryCardProps> = ({ resourcePath, description }) => {
+const RepositoryCard: FC<RepositoryCardProps> = ({ resourcePath, description, className }) => {
     return (
-        <Card>
+        <Card className={className}>
             <Card.Body>
                 <Card.Title>{resourcePath}</Card.Title>
                 <Card.Text>
