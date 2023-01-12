@@ -31,6 +31,11 @@ const Navbar: FC = () => {
         logIn(target.token.value)
     }
 
+    const myProfileLink = data && {
+        pathname: "/profile",
+        query: { login: data.viewer.login },
+    };
+
     return (
         <BootstrapNavbar bg="light" expand="lg">
             <Container fluid>
@@ -51,14 +56,11 @@ const Navbar: FC = () => {
                                         align="end"
                                     >
                                             <p className="px-1">
-                                                Signed in as <a href="#" className="fw-bolder text-secondary">{data.viewer.login}</a>
+                                                Signed in as <Link href={myProfileLink!} className="fw-bolder text-secondary">{data.viewer.login}</Link>
                                             </p>
                                             <NavDropdown.Divider />
 
-                                            <Link href={{
-                                                pathname: "/profile",
-                                                query: { login: data.viewer.login },
-                                            }} passHref legacyBehavior>
+                                            <Link href={myProfileLink!} passHref legacyBehavior>
                                                 <NavDropdown.Item>My profile</NavDropdown.Item>
                                             </Link>
 
