@@ -49,6 +49,7 @@ const Profile = () => {
                             color: repository?.node?.languages?.edges?.[0]?.node?.color || "",
                             name: repository?.node?.languages?.edges?.[0]?.node?.name || "",
                         }}
+                        stargazerCount={repository?.node?.stargazerCount ?? 0}
                     />
                 ))
             }
