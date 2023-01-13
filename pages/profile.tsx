@@ -49,7 +49,10 @@ const Profile = () => {
                             color: repository?.node?.languages?.edges?.[0]?.node?.color || "",
                             name: repository?.node?.languages?.edges?.[0]?.node?.name || "",
                         }}
-                        stargazerCount={repository?.node?.stargazerCount ?? 0}
+                        stargazersTag={{
+                            viewerHasStarred: repository?.node?.viewerHasStarred ?? false,
+                            stargazerCount: repository?.node?.stargazerCount ?? 0,
+                        }}
                     />
                 ))
             }
