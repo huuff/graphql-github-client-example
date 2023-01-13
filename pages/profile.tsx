@@ -45,6 +45,10 @@ const Profile = () => {
                         className="my-2"
                         description={repository?.node?.description ?? ""}
                         resourcePath={repository?.node?.resourcePath ?? ""}
+                        languageTag={{
+                            color: repository?.node?.languages?.edges?.[0]?.node?.color || "",
+                            name: repository?.node?.languages?.edges?.[0]?.node?.name || "",
+                        }}
                     />
                 ))
             }
