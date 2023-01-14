@@ -7,6 +7,7 @@ import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { AuthContext } from "../auth-context";
 import Link from "next/link";
+import { RateLimit } from "./RateLimit";
 
 // TODO: Is it necessary to export it?
 export const GET_VIEWER_DATA = gql(`
@@ -14,6 +15,9 @@ export const GET_VIEWER_DATA = gql(`
     viewer {
       login
       avatarUrl
+    }
+    rateLimit {
+        ...RateLimitFragment
     }
   }
 `);
@@ -44,6 +48,11 @@ const Navbar: FC = () => {
                         (isLoggedIn && data)
                             ? (
                                 <>
+                                    <RateLimit 
+                                        used={data.rateLimit?.used ?? 0} 
+                                        limit={data.rateLimit?.limit ?? 0}
+                                        className="me-3"
+                                    />
                                     <NavDropdown title={
                                         // TODO: Use width and height instead of inline style
                                             <Image
