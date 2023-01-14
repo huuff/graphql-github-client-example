@@ -30,10 +30,6 @@ const Profile = () => {
         variables: { login: login as string }
     });
 
-    useEffect(() => {
-        console.log(JSON.stringify(data));
-    }, [data]);
-
     return (
         <Container>
             <h1 className="display-1">{data?.user?.name}</h1>
