@@ -9,7 +9,6 @@ import { AuthContext } from "../auth-context";
 import Link from "next/link";
 import { RateLimit } from "./RateLimit";
 
-// TODO: Is it necessary to export it?
 export const GET_VIEWER_DATA = gql(`
   query GetViewerData {
     viewer {
@@ -48,14 +47,16 @@ const Navbar: FC = () => {
                         (isLoggedIn && data)
                             ? (
                                 <>
-                                    <RateLimit 
-                                        used={data.rateLimit?.used ?? 0} 
-                                        limit={data.rateLimit?.limit ?? 0}
-                                        className="me-3"
-                                    />
+                                    {
+                                        data.rateLimit &&
+                                            <RateLimit
+                                                query={data.rateLimit}
+                                                className="me-3"
+                                            />
+                                    }
                                     <NavDropdown title={
                                         // TODO: Use width and height instead of inline style
-                                            <Image
+                                        <Image
                                             src={data.viewer.avatarUrl}
                                             alt="avatar"
                                             roundedCircle
@@ -64,19 +65,19 @@ const Navbar: FC = () => {
                                     }
                                         align="end"
                                     >
-                                            <p className="px-1">
-                                                Signed in as <Link href={myProfileLink!} className="fw-bolder text-secondary">{data.viewer.login}</Link>
-                                            </p>
-                                            <NavDropdown.Divider />
+                                        <p className="px-1">
+                                            Signed in as <Link href={myProfileLink!} className="fw-bolder text-secondary">{data.viewer.login}</Link>
+                                        </p>
+                                        <NavDropdown.Divider />
 
-                                            <Link href={myProfileLink!} passHref legacyBehavior>
-                                                <NavDropdown.Item>My profile</NavDropdown.Item>
-                                            </Link>
+                                        <Link href={myProfileLink!} passHref legacyBehavior>
+                                            <NavDropdown.Item>My profile</NavDropdown.Item>
+                                        </Link>
 
-                                            <NavDropdown.Item onClick={logOut}>
-                                                Log out
-                                            </NavDropdown.Item>
-                                            
+                                        <NavDropdown.Item onClick={logOut}>
+                                            Log out
+                                        </NavDropdown.Item>
+
                                     </NavDropdown>
 
                                 </>

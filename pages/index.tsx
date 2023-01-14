@@ -1,7 +1,5 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { FC } from 'react';
-import { gql } from "../src/__generated__/gql";
 const Home: FC = () => {
   return (
     <>

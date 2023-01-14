@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { gql } from "../__generated__";
+import { FragmentType, gql, useFragment } from "../__generated__";
 
 export const RATE_LIMIT_FRAGMENT = gql(`
   fragment RateLimitFragment on RateLimit {
@@ -9,15 +9,15 @@ export const RATE_LIMIT_FRAGMENT = gql(`
 `);
 
 export type RateLimitProps = {
-    readonly used: number;
-    readonly limit: number;
+    readonly query: FragmentType<typeof RATE_LIMIT_FRAGMENT>;
     readonly className?: string;
 };
 
-export const RateLimit: FC<RateLimitProps> = ({ used, limit, className }) => {
+export const RateLimit: FC<RateLimitProps> = ({ query, className }) => {
+    const data = useFragment(RATE_LIMIT_FRAGMENT, query);
     return (
         <span className={className}>
-            <span>{used}</span> / <span>{limit}</span>
+            <span>{data.used}</span> / <span>{data.limit}</span>
         </span>
     );
 }
