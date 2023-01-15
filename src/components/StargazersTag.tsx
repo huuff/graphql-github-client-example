@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FragmentType, gql, useFragment } from "../__generated__";
 import { useMutation } from "@apollo/client";
+import { StargazersTagFragment } from "../__generated__/graphql";
 
 export const STARGAZERS_TAG_FRAGMENT = gql(`
     fragment StargazersTag on Repository {
@@ -36,12 +37,43 @@ export const REMOVE_STAR_MUTATION = gql(`
     }
 `);
 
+function buildOptimisticResponse(
+    { id, stargazerCount }: StargazersTagFragment,
+    mutation: "add" | "remove"
+) {
+    switch (mutation) {
+        case "add":
+            return {
+                addStar: {
+                    starrable: {
+                        id,
+                        stargazerCount: stargazerCount + 1,
+                        viewerHasStarred: true,
+                    }
+                }
+            }
+        case "remove":
+            return {
+                removeStar: {
+                    starrable: {
+                        id,
+                        stargazerCount: stargazerCount - 1,
+                        viewerHasStarred: false,
+                    }
+                }
+            }
+    }
+}
+
 export type StargazersTagProps = {
     readonly query: FragmentType<typeof STARGAZERS_TAG_FRAGMENT>;
 }
 
+// TODO: I'm not sure the optimistic response is working since it still feels slow...
+// maybe it's not getting the stargazer count from the cache?
 export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
-    const { stargazerCount, viewerHasStarred, id } = useFragment(STARGAZERS_TAG_FRAGMENT, query);
+    const stargazer = useFragment(STARGAZERS_TAG_FRAGMENT, query);
+    const { id, stargazerCount, viewerHasStarred } = stargazer;
     const [addStar] = useMutation(ADD_STAR_MUTATION);
     const [removeStar] = useMutation(REMOVE_STAR_MUTATION);
     return (
@@ -52,27 +84,11 @@ export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
                 onClick={() => viewerHasStarred
                     ? removeStar({
                         variables: { id },
-                        optimisticResponse: {
-                            removeStar: {
-                                starrable: {
-                                    id,
-                                    stargazerCount: stargazerCount - 1,
-                                    viewerHasStarred: false,
-                                }
-                            }
-                        }
+                        optimisticResponse: buildOptimisticResponse(stargazer, "remove")
                     })
                     : addStar({
                         variables: { id },
-                        optimisticResponse: {
-                            addStar: {
-                                starrable: {
-                                    id,
-                                    stargazerCount: stargazerCount + 1,
-                                    viewerHasStarred: true,
-                                }
-                            }
-                        }
+                        optimisticResponse: buildOptimisticResponse(stargazer, "add")
                     })}
                 style={{
                     color: viewerHasStarred ? "yellow" : "black",
