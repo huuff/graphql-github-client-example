@@ -40,7 +40,6 @@ export type StargazersTagProps = {
     readonly query: FragmentType<typeof STARGAZERS_TAG_FRAGMENT>;
 }
 
-// TODO: Try to use optimistic updates so it refreshes more quickly?
 export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
     const { stargazerCount, viewerHasStarred, id } = useFragment(STARGAZERS_TAG_FRAGMENT, query);
     const [addStar] = useMutation(ADD_STAR_MUTATION);
@@ -51,8 +50,30 @@ export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
             <FontAwesomeIcon
                 icon={faStar}
                 onClick={() => viewerHasStarred
-                    ? removeStar({ variables: { id } })
-                    : addStar({ variables: { id } })}
+                    ? removeStar({
+                        variables: { id },
+                        optimisticResponse: {
+                            removeStar: {
+                                starrable: {
+                                    id,
+                                    stargazerCount: stargazerCount - 1,
+                                    viewerHasStarred: false,
+                                }
+                            }
+                        }
+                    })
+                    : addStar({
+                        variables: { id },
+                        optimisticResponse: {
+                            addStar: {
+                                starrable: {
+                                    id,
+                                    stargazerCount: stargazerCount + 1,
+                                    viewerHasStarred: true,
+                                }
+                            }
+                        }
+                    })}
                 style={{
                     color: viewerHasStarred ? "yellow" : "black",
                     cursor: "pointer",
