@@ -14,13 +14,19 @@ export type StargazersTagProps = {
     readonly query: FragmentType<typeof STARGAZERS_TAG_FRAGMENT>;
 }
 
-// TODO: Yellow star when viewerHasStarred
 // TODO: Clicking toggles starred
 export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
     const stargazers = useFragment(STARGAZERS_TAG_FRAGMENT, query);
     return (
         <span>
-            <span className="me-1">{stargazers.stargazerCount}</span><FontAwesomeIcon icon={faStar} />
+            <span className="me-1">{stargazers.stargazerCount}</span>
+            <FontAwesomeIcon 
+                icon={faStar} 
+                style={{ 
+                    color: stargazers.viewerHasStarred ? "yellow" : "black",
+                    cursor: "pointer",
+                }} 
+            />
         </span>
     );
 }
