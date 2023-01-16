@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faSolidStar} from "@fortawesome/free-solid-svg-icons";
+import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
 import { FragmentType, gql, useFragment } from "../__generated__";
 import { useMutation } from "@apollo/client";
 import { StargazersTagFragment } from "../__generated__/graphql";
@@ -78,9 +79,8 @@ export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
     const [removeStar] = useMutation(REMOVE_STAR_MUTATION);
     return (
         <span>
-            <span className="me-1">{stargazerCount}</span>
             <FontAwesomeIcon
-                icon={faStar}
+                icon={viewerHasStarred ? faSolidStar : faRegularStar}
                 onClick={() => viewerHasStarred
                     ? removeStar({
                         variables: { id },
@@ -95,6 +95,7 @@ export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
                     cursor: "pointer",
                 }}
             />
+            <span className="ms-1">{stargazerCount}</span>
         </span>
     );
 }
