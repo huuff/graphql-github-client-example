@@ -1,4 +1,4 @@
-import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+import { faBoxArchive, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 import Card from "react-bootstrap/Card";
@@ -13,6 +13,7 @@ export const REPOSITORY_CARD_FRAGMENT = gql(`
         description
         updatedAt
         isArchived
+        isPrivate
         ...StargazersTag
         languages(first: 1, orderBy: { field: SIZE, direction: DESC}) {
             edges {
@@ -54,8 +55,9 @@ const RepositoryCard: FC<RepositoryCardProps> = ({ query, className }) => {
                     <StargazersTag query={data} />
                     <span className="text-muted">Updated {formatDate(data.updatedAt)}</span>
                 </div>
-                <div className="d-flex flex-row gap-4 align-items-center">
+                <div className="d-flex flex-row gap-2 align-items-center">
                     {data.isArchived && <FontAwesomeIcon icon={faBoxArchive} /> }
+                    {data.isPrivate && <FontAwesomeIcon icon={faEyeSlash} /> }
                 </div>
             </Card.Footer>
         </Card>
