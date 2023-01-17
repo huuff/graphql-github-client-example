@@ -30,13 +30,12 @@ const Repository = () => {
         }
     })
 
-    // TODO: I need to narrow the type of readme to blob
     return (
         <Container className="d-flex flex-column align-items-center">
             <h1 className="display-3">{data?.repository?.name}</h1>
-            {   data?.repository?.readme?.text && 
+            {   data?.repository?.readme?.__typename === "Blob" && 
                 <main 
-                    dangerouslySetInnerHTML={{ __html: converter.makeHtml(data?.repository?.readme?.text) }} 
+                    dangerouslySetInnerHTML={{ __html: converter.makeHtml(data?.repository?.readme?.text ?? "") }} 
                     style={{maxWidth: "60rem"}}
                 />
             }
