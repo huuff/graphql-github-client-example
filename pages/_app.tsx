@@ -25,8 +25,22 @@ export default function App({ Component, pageProps }: AppProps) {
   });
 
   const apolloClient = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        User: {
+          fields: {
+            repositories: {
+              keyArgs: false,
+              merge(existing = [], incoming) {
+                return incoming
+              }
+            }
+          }
+        }
+      }
+    }),
     link: authLink.concat(httpLink),
+    connectToDevTools: true,
   });
 
 
