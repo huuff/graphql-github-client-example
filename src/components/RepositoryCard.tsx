@@ -1,3 +1,5 @@
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 import Card from "react-bootstrap/Card";
 import { FragmentType, gql, useFragment } from "../__generated__";
@@ -10,6 +12,7 @@ export const REPOSITORY_CARD_FRAGMENT = gql(`
         resourcePath
         description
         updatedAt
+        isArchived
         ...StargazersTag
         languages(first: 1, orderBy: { field: SIZE, direction: DESC}) {
             edges {
@@ -37,7 +40,7 @@ const RepositoryCard: FC<RepositoryCardProps> = ({ query, className }) => {
     const mainLanguage = data.languages?.edges?.[0]?.node;
 
     return (
-        <Card className={className}>
+        <Card className={className} style={{width: "42rem"}}>
             <Card.Body>
                 <Card.Title as="h5">{data.resourcePath}</Card.Title>
                 <Card.Text>
@@ -45,10 +48,15 @@ const RepositoryCard: FC<RepositoryCardProps> = ({ query, className }) => {
                 </Card.Text>
 
             </Card.Body>
-            <Card.Footer className="d-flex flex-row gap-4 align-items-center">
-                { mainLanguage && <LanguageTag query={mainLanguage} /> }
-                <StargazersTag query={data} />
-                <span className="text-muted">Updated {formatDate(data.updatedAt)}</span>
+            <Card.Footer className="d-flex flex-row justify-content-between align-items-center">
+                <div  className="d-flex flex-row gap-4 align-items-center" >
+                    { mainLanguage && <LanguageTag query={mainLanguage} /> }
+                    <StargazersTag query={data} />
+                    <span className="text-muted">Updated {formatDate(data.updatedAt)}</span>
+                </div>
+                <div className="d-flex flex-row gap-4 align-items-center">
+                    {data.isArchived && <FontAwesomeIcon icon={faBoxArchive} /> }
+                </div>
             </Card.Footer>
         </Card>
     );
