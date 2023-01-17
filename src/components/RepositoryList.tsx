@@ -30,6 +30,7 @@ type RepositoryListProps = {
     readonly previousPage: () => void;
 }
 
+// TODO: Definitely needs a better pagination UX
 export const RepositoryList: FC<RepositoryListProps> = ({ query, nextPage, previousPage, }) => {
     const data = useFragment(REPOSITORY_LIST_FRAGMENT, query);
 

@@ -1,5 +1,6 @@
 import { faBoxArchive, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { FC } from "react";
 import Card from "react-bootstrap/Card";
 import { FragmentType, gql, useFragment } from "../__generated__";
@@ -43,7 +44,9 @@ const RepositoryCard: FC<RepositoryCardProps> = ({ query, className }) => {
     return (
         <Card className={className} style={{width: "42rem"}}>
             <Card.Body>
-                <Card.Title as="h5">{data.resourcePath}</Card.Title>
+                <Card.Title as="h5">
+                    <Link href={`/repository${data.resourcePath}`}>{data.resourcePath}</Link>
+                </Card.Title>
                 <Card.Text>
                     {data.description ?? ""}
                 </Card.Text>
