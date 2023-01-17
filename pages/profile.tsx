@@ -57,7 +57,7 @@ const Profile = () => {
 
     return (
         <Container className="d-flex flex-column align-items-center">
-            <h1 className="display-1">{data?.user?.name}</h1>
+            <h1 className="display-3">{data?.user?.name}</h1>
             <p>{data?.user?.bio}</p>
             { data?.user && <RepositoryList query={data.user} nextPage={nextPage} previousPage={previousPage}/> }
         </Container>
