@@ -8,7 +8,7 @@ import RepositoryCard, { REPOSITORY_CARD_FRAGMENT } from "./RepositoryCard";
 // TODO: I'd like to have this on RepositoryOwner... but that hasn't been working for me
 export const REPOSITORY_LIST_FRAGMENT = gql(`
     fragment RepositoryList on User {
-        repositories(first: $first, after: $after, before: $before, orderBy: { field: UPDATED_AT, direction: DESC}) {
+        repositories(first: $first, after: $after, before: $before, orderBy: { field: UPDATED_AT, direction: DESC }) {
             edges {
                 node {
                     ...RepositoryCard
