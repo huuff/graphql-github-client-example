@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { FragmentType, gql, useFragment } from "../__generated__";
+import { FragmentType, gql, getFragmentData } from "../__generated__";
 
 export const RATE_LIMIT_FRAGMENT = gql(`
   fragment RateLimitFragment on RateLimit {
@@ -14,7 +14,7 @@ export type RateLimitProps = {
 };
 
 export const RateLimit: FC<RateLimitProps> = ({ query, className }) => {
-    const data = useFragment(RATE_LIMIT_FRAGMENT, query);
+    const data = getFragmentData(RATE_LIMIT_FRAGMENT, query);
     return (
         <span className={className}>
             <span>{data.used}</span> / <span>{data.limit}</span>

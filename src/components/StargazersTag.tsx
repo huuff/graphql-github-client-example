@@ -2,7 +2,7 @@ import { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faSolidStar} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
-import { FragmentType, gql, useFragment } from "../__generated__";
+import { FragmentType, gql, getFragmentData } from "../__generated__";
 import { useMutation } from "@apollo/client";
 import { StargazersTagFragment } from "../__generated__/graphql";
 
@@ -73,7 +73,7 @@ export type StargazersTagProps = {
 // TODO: I'm not sure the optimistic response is working since it still feels slow...
 // maybe it's not getting the stargazer count from the cache?
 export const StargazersTag: FC<StargazersTagProps> = ({ query }) => {
-    const stargazer = useFragment(STARGAZERS_TAG_FRAGMENT, query);
+    const stargazer = getFragmentData(STARGAZERS_TAG_FRAGMENT, query);
     const { id, stargazerCount, viewerHasStarred } = stargazer;
     const [addStar] = useMutation(ADD_STAR_MUTATION);
     const [removeStar] = useMutation(REMOVE_STAR_MUTATION);

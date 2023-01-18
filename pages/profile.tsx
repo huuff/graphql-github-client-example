@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
 import { RepositoryList, REPOSITORY_LIST_FRAGMENT } from "../src/components/RepositoryList";
-import { gql, useFragment } from "../src/__generated__";
+import { gql, getFragmentData } from "../src/__generated__";
 
 export const USER_QUERY = gql(`
     query GetUserData($login: String!, $first: Int = 10, $after: String, $before: String) {
@@ -30,7 +30,7 @@ const Profile = () => {
         }
     });
 
-    const repositoryList = useFragment(REPOSITORY_LIST_FRAGMENT, data?.user);
+    const repositoryList = getFragmentData(REPOSITORY_LIST_FRAGMENT, data?.user);
 
     const nextPage = () => {
         if (repositoryList) {

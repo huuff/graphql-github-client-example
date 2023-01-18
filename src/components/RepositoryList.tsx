@@ -2,7 +2,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FC } from "react";
 import { Pagination } from "react-bootstrap";
-import { FragmentType, gql, useFragment } from "../__generated__";
+import { FragmentType, gql, getFragmentData } from "../__generated__";
 import RepositoryCard, { REPOSITORY_CARD_FRAGMENT } from "./RepositoryCard";
 
 // TODO: I'd like to have this on RepositoryOwner... but that hasn't been working for me
@@ -32,7 +32,7 @@ type RepositoryListProps = {
 
 // TODO: Definitely needs a better pagination UX
 export const RepositoryList: FC<RepositoryListProps> = ({ query, nextPage, previousPage, }) => {
-    const data = useFragment(REPOSITORY_LIST_FRAGMENT, query);
+    const data = getFragmentData(REPOSITORY_LIST_FRAGMENT, query);
 
     return (
         <>
@@ -42,7 +42,7 @@ export const RepositoryList: FC<RepositoryListProps> = ({ query, nextPage, previ
                                                 .map((repository) => {
                                                     // TODO: This doesn't look ok
                                                     // eslint-disable-next-line react-hooks/rules-of-hooks
-                                                    const key = useFragment(REPOSITORY_CARD_FRAGMENT, repository)!.resourcePath;
+                                                    const key = getFragmentData(REPOSITORY_CARD_FRAGMENT, repository)!.resourcePath;
                                                     return (
                                                         <RepositoryCard
                                                             key={key}

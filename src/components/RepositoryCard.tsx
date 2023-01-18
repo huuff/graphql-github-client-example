@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { FC } from "react";
 import Card from "react-bootstrap/Card";
-import { FragmentType, gql, useFragment } from "../__generated__";
+import { FragmentType, gql, getFragmentData } from "../__generated__";
 import { LanguageTag } from "./LanguageTag";
 import { StargazersTag } from "./StargazersTag";
 
@@ -37,7 +37,7 @@ type RepositoryCardProps = {
 };
 
 const RepositoryCard: FC<RepositoryCardProps> = ({ query, className }) => {
-    const data = useFragment(REPOSITORY_CARD_FRAGMENT, query);
+    const data = getFragmentData(REPOSITORY_CARD_FRAGMENT, query);
 
     const mainLanguage = data.languages?.edges?.[0]?.node;
 
