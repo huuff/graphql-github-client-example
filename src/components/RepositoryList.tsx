@@ -40,8 +40,6 @@ export const RepositoryList: FC<RepositoryListProps> = ({ query, nextPage, previ
                 data?.repositories?.edges?.filter((r) => !!(r?.node))
                                                 .map((r) => r?.node)
                                                 .map((repository) => {
-                                                    // TODO: This doesn't look ok
-                                                    // eslint-disable-next-line react-hooks/rules-of-hooks
                                                     const key = getFragmentData(REPOSITORY_CARD_FRAGMENT, repository)!.resourcePath;
                                                     return (
                                                         <RepositoryCard
